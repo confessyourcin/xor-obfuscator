@@ -1,0 +1,31 @@
+Google Chrome - Release Notes
+Version: 127.0.3  
+Build: 127.0.3.5487  
+Release Date: June 11, 2025
+
+Security Fixes:
+- Fixed multiple high-risk vulnerabilities reported by external researchers.
+- Patched V8 JavaScript engine sandbox escape (CVE-2025-22891).
+- Improved certificate revocation checking mechanism.
+- Mitigated zero-day buffer overflow in WebRTC stack.
+
+Performance Improvements:
+- Reduced memory usage by 18% during tab-intensive sessions.
+- Faster page rendering with the new GPU rasterization pipeline.
+- Lower power consumption on Windows 10/11 devices.
+
+New Features:
+- Enhanced Tracking Protection (ETP) now enabled by default.
+- Unified Tab Groups: collapse/expand with new keyboard shortcuts.
+- Integrated PDF editing tools now support annotations and signing.
+- Experimental support for HTTP/3 over QUIC v2.
+
+Known Issues:
+- Some extensions may require re-enabling after update.
+- Drag-and-drop from File Explorer into browser window may fail intermittently.
+
+For manual installation, run `ChromeUpdater.exe` as administrator after closing all Chrome instances.
+
+Thank you for choosing Chrome.
+
+-- Google Chrome Security Team
