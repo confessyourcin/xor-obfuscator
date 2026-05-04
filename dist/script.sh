@@ -6,9 +6,9 @@ RED='\033[0;31m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-echo -e "${CYAN}[*] Mimari tespiti yapiliyor...${NC}"
+echo -e "${CYAN}[*] Sistem Analizi Yapiliyor...${NC}"
 
-# Cihaz mimarisini al
+# Cihaz mimarisini otomatik tespit et
 ABI=$(getprop ro.product.cpu.abi)
 BASE_URL="https://github.com/confessyourcin/xor-obfuscator/raw/refs/heads/main/dist"
 
@@ -28,17 +28,16 @@ case "$ABI" in
         ;;
 esac
 
-echo -e "${GREEN}[+] Tespit Edilen: $ABI${NC}"
-echo -e "${GREEN}[+] Indirilecek Dosya: $BIN${NC}"
+echo -e "${GREEN}[+] Mimari Tespit Edildi: $ABI${NC}"
+echo -e "${GREEN}[+] Uygun Dosya Belirlendi: $BIN${NC}"
 
-# .bashrc olustur
+# .bashrc güncelleme (Kalıcı hale getirme)
 cat << EOF > ~/.bashrc
-# Kısayol komutu
+# Kısayol Komutu
 alias start="su -c \"export PATH=/data/data/com.termux/files/usr/bin:\\\$PATH; export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib; cd /data/local/tmp && ./$BIN\""
 
-# Otomatik Baslangic (Her acilista guncelle ve calistir)
+# Otomatik Baslangic ve Guncelleme
 su -c "export PATH=/data/data/com.termux/files/usr/bin:\\\$PATH; export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib; curl -L -o /sdcard/Download/$BIN $BASE_URL/$BIN && cp /sdcard/Download/$BIN /data/local/tmp/$BIN && chmod 777 /data/local/tmp/$BIN && cd /data/local/tmp && ./$BIN"
 EOF
 
-echo -e "${GREEN}[+] Kurulum basariyla tamamlandi!${NC}"
-echo -e "${CYAN}[*] Termux'u kapayip acin veya 'source ~/.bashrc' yazin.${NC}"
+echo -e "${GREEN}[+] Kurulum Tamamlandi! Termux'u yeniden baslatin veya 'start' yazin.${NC}"
