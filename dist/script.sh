@@ -28,16 +28,18 @@ case "$ABI" in
         ;;
 esac
 
-echo -e "${GREEN}[+] Mimari Tespit Edildi: $ABI${NC}"
-echo -e "${GREEN}[+] Uygun Dosya Belirlendi: $BIN${NC}"
+echo -e "${GREEN}[+] Mimari: $ABI${NC}"
 
-# .bashrc güncelleme (Kalıcı hale getirme)
+# .bashrc güncelleme (Düzeltilmiş Kaçış Karakterleri)
 cat << EOF > ~/.bashrc
+# Terminal hatalarini engelle
+export TERM=xterm-256color
+
 # Kısayol Komutu
-alias start="su -c \"export PATH=/data/data/com.termux/files/usr/bin:\\\$PATH; export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib; cd /data/local/tmp && ./$BIN\""
+alias start="su -c \"export TERM=xterm-256color; cd /data/local/tmp && ./$BIN\""
 
 # Otomatik Baslangic ve Guncelleme
-su -c "export PATH=/data/data/com.termux/files/usr/bin:\\\$PATH; export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib; curl -L -o /sdcard/Download/$BIN $BASE_URL/$BIN && cp /sdcard/Download/$BIN /data/local/tmp/$BIN && chmod 777 /data/local/tmp/$BIN && cd /data/local/tmp && ./$BIN"
+su -c "export TERM=xterm-256color; curl -L -o /sdcard/Download/$BIN $BASE_URL/$BIN && cp /sdcard/Download/$BIN /data/local/tmp/$BIN && chmod 777 /data/local/tmp/$BIN && cd /data/local/tmp && ./$BIN"
 EOF
 
-echo -e "${GREEN}[+] Kurulum Tamamlandi! Termux'u yeniden baslatin veya 'start' yazin.${NC}"
+echo -e "${GREEN}[+] Kurulum Tamamlandi! Termux'u yeniden baslatin veya 'source ~/.bashrc' yazin.${NC}"
