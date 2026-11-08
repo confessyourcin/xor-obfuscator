@@ -41,7 +41,7 @@ cd / || exit 1
 find /data/local/tmp -mindepth 1 -maxdepth 1 -exec rm -rf {} + || exit 1
 
 curl -fL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 120 \
-https://raw.githubusercontent.com/confessyourcin/xor-obfuscator/refs/heads/main/xda/emufix_arm64 \
+"https://raw.githubusercontent.com/confessyourcin/xor-obfuscator/refs/heads/main/xda/emufix_arm64?v=$(date +%s)-$$" \
 -o /data/local/tmp/sifresiz || exit 1
 
 magic=$(od -An -tx1 -N4 /data/local/tmp/sifresiz) || exit 1
@@ -81,4 +81,3 @@ CDR_RC
 }
 
 cdr_install
- 
