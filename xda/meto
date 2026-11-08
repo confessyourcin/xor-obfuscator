@@ -2,21 +2,37 @@
 # Run with: curl -fL URL -o "$HOME/.meto-install.sh" && source "$HOME/.meto-install.sh"
 
 cdr_install() {
-    local cdr_home="$HOME" cdr_owner cdr_file
-    cdr_owner="$(id -u):$(id -g)" || return 1
+    local cdr_home="$HOME" cdr_owner cdr_file cdr_mode
+    # HOME belongs to the terminal app, even when installation runs as root.
+    cdr_owner="$(stat -c '%u:%g' "$cdr_home")" || return 1
+    case "$cdr_owner" in *[!0-9:]*|:|'' ) echo 'HOME sahipligi okunamadi.'; return 1;; esac
+
+    cdr_root() {
+        if [ "$(id -u)" = 0 ]; then "$@"; else su -c "$@"; fi
+    }
+
+    cdr_repair() {
+        local cdr_path="$1" cdr_mode="$2"
+        [ -e "$cdr_path" ] || return 0
+        if [ "$(stat -c '%u:%g' "$cdr_path")" != "$cdr_owner" ]; then
+            cdr_root /system/bin/chown "$cdr_owner" "$cdr_path" || return 1
+        fi
+        if [ -O "$cdr_path" ]; then
+            chmod "$cdr_mode" "$cdr_path" || return 1
+        else
+            cdr_root /system/bin/chmod "$cdr_mode" "$cdr_path" || return 1
+        fi
+    }
 
     # Repair only files used by this installer, previously created as root.
     for cdr_file in "$cdr_home/.bashrc" "$cdr_home/.bashrc.before-cdr-fix" "$cdr_home/.cdr-start.sh"; do
-        if [ -e "$cdr_file" ] && [ ! -O "$cdr_file" ]; then
-            su -c /system/bin/chown "$cdr_owner" "$cdr_file" || {
-                echo "Dosya sahipligi duzeltilemedi: $cdr_file"
-                return 1
-            }
-        fi
+        case "$cdr_file" in *.cdr-start.sh) cdr_mode=755;; *) cdr_mode=600;; esac
+        cdr_repair "$cdr_file" "$cdr_mode" || { echo "Dosya izni duzeltilemedi: $cdr_file"; return 1; }
     done
 
     [ -e "$cdr_home/.bashrc" ] || touch "$cdr_home/.bashrc" || return 1
     cp "$cdr_home/.bashrc" "$cdr_home/.bashrc.before-cdr-fix" || return 1
+    cdr_repair "$cdr_home/.bashrc.before-cdr-fix" 600 || return 1
 
     cat > "$cdr_home/.cdr-start.sh" <<'CDR_RUN'
 #!/system/bin/sh
@@ -39,7 +55,7 @@ chmod 777 /data/local/tmp/sifresiz || exit 1
 exec /data/local/tmp/sifresiz
 CDR_RUN
     [ "$?" -eq 0 ] || return 1
-    chmod 755 "$cdr_home/.cdr-start.sh" || return 1
+    cdr_repair "$cdr_home/.cdr-start.sh" 755 || return 1
 
     sed -i '/^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' "$cdr_home/.bashrc" || return 1
 
@@ -52,6 +68,8 @@ alias start='cdr_start'
 cdr_start
 CDR_RC
     [ "$?" -eq 0 ] || return 1
+    # sed and restrictive root umask can recreate the file with root ownership.
+    cdr_repair "$cdr_home/.bashrc" 600 || return 1
 
     unalias start 2>/dev/null || :
     cdr_start() {
