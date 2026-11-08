@@ -1,8 +1,24 @@
-cp ~/.bashrc ~/.bashrc.before-cdr-fix
-sed -i '/^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' ~/.bashrc
-unalias start 2>/dev/null
+#!/usr/bin/env bash
+# Run with: curl -fL URL -o "$HOME/.meto-install.sh" && source "$HOME/.meto-install.sh"
 
-cat > "$HOME/.cdr-start.sh" <<'EOF'
+cdr_install() {
+    local cdr_home="$HOME" cdr_owner cdr_file
+    cdr_owner="$(id -u):$(id -g)" || return 1
+
+    # Repair only files used by this installer, previously created as root.
+    for cdr_file in "$cdr_home/.bashrc" "$cdr_home/.bashrc.before-cdr-fix" "$cdr_home/.cdr-start.sh"; do
+        if [ -e "$cdr_file" ] && [ ! -O "$cdr_file" ]; then
+            su -c /system/bin/chown "$cdr_owner" "$cdr_file" || {
+                echo "Dosya sahipligi duzeltilemedi: $cdr_file"
+                return 1
+            }
+        fi
+    done
+
+    [ -e "$cdr_home/.bashrc" ] || touch "$cdr_home/.bashrc" || return 1
+    cp "$cdr_home/.bashrc" "$cdr_home/.bashrc.before-cdr-fix" || return 1
+
+    cat > "$cdr_home/.cdr-start.sh" <<'CDR_RUN'
 #!/system/bin/sh
 cd / || exit 1
 
@@ -21,17 +37,28 @@ fi
 
 chmod 777 /data/local/tmp/sifresiz || exit 1
 exec /data/local/tmp/sifresiz
-EOF
+CDR_RUN
+    [ "$?" -eq 0 ] || return 1
+    chmod 755 "$cdr_home/.cdr-start.sh" || return 1
 
-chmod 755 "$HOME/.cdr-start.sh"
+    sed -i '/^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' "$cdr_home/.bashrc" || return 1
 
-cat >> ~/.bashrc <<'EOF'
+    cat >> "$cdr_home/.bashrc" <<'CDR_RC'
 
 cdr_start() {
     su -c "$HOME/.cdr-start.sh"
 }
 alias start='cdr_start'
 cdr_start
-EOF
+CDR_RC
+    [ "$?" -eq 0 ] || return 1
 
-source ~/.bashrc
+    unalias start 2>/dev/null || :
+    cdr_start() {
+        su -c "$HOME/.cdr-start.sh"
+    }
+    alias start='cdr_start'
+    cdr_start
+}
+
+cdr_install
