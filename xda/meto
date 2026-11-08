@@ -26,7 +26,7 @@ cdr_install() {
 
     # Repair only files used by this installer, previously created as root.
     for cdr_file in "$cdr_home/.bashrc" "$cdr_home/.bashrc.before-cdr-fix" "$cdr_home/.cdr-start.sh"; do
-        case "$cdr_file" in *.cdr-start.sh) cdr_mode=755;; *) cdr_mode=600;; esac
+        case "$cdr_file" in *.cdr-start.sh) cdr_mode=755;; */.bashrc) cdr_mode=644;; *) cdr_mode=600;; esac
         cdr_repair "$cdr_file" "$cdr_mode" || { echo "Dosya izni duzeltilemedi: $cdr_file"; return 1; }
     done
 
@@ -57,26 +57,27 @@ CDR_RUN
     [ "$?" -eq 0 ] || return 1
     cdr_repair "$cdr_home/.cdr-start.sh" 755 || return 1
 
-    sed -i '/^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' "$cdr_home/.bashrc" || return 1
+    sed -i '/^# CDR_STARTUP_BEGIN$/,/^# CDR_STARTUP_END$/d; /^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' "$cdr_home/.bashrc" || return 1
 
     cat >> "$cdr_home/.bashrc" <<'CDR_RC'
 
+# CDR_STARTUP_BEGIN
+if [ "$(id -u)" != 0 ]; then
+    exec su
+fi
 cdr_start() {
     su -c "$HOME/.cdr-start.sh"
 }
-alias start='cdr_start'
+alias start='su -c "$HOME/.cdr-start.sh"'
 cdr_start
+# CDR_STARTUP_END
 CDR_RC
     [ "$?" -eq 0 ] || return 1
     # sed and restrictive root umask can recreate the file with root ownership.
-    cdr_repair "$cdr_home/.bashrc" 600 || return 1
+    cdr_repair "$cdr_home/.bashrc" 644 || return 1
 
     unalias start 2>/dev/null || :
-    cdr_start() {
-        su -c "$HOME/.cdr-start.sh"
-    }
-    alias start='cdr_start'
-    cdr_start
+    source "$cdr_home/.bashrc"
 }
 
 cdr_install
